@@ -8,10 +8,10 @@ defmodule Authable.Mixfile do
      elixirc_paths: elixirc_paths(Mix.env),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     aliases: aliases,
-     description: description,
-     package: package,
-     deps: deps,
+     aliases: aliases(),
+     description: description(),
+     package: package(),
+     deps: deps(),
      docs: [extras: ["README.md"]]]
   end
 
@@ -21,7 +21,7 @@ defmodule Authable.Mixfile do
   def application do
     [
       mod: {Authable, []},
-      applications: [:logger, :comeonin, :ecto, :postgrex,
+      applications: [:logger, :comeonin,
         :secure_random]
     ]
   end
@@ -36,9 +36,7 @@ defmodule Authable.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [
-      {:postgrex, "~> 0.13"},
-      {:ecto, "~> 2.1"},
+    [          
       {:comeonin, "~> 3.0"},
       {:secure_random, "~> 0.5"},
       {:plug, "~> 1.0 or ~> 1.1 or ~> 1.2 or ~> 1.3"},
