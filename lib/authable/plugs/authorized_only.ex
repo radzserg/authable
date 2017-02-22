@@ -1,4 +1,4 @@
-defmodule Authable.Plug.Authenticate do
+defmodule Authable.Plug.AuthorizedOnly do
   @moduledoc """
   Authable plug implementation to check authentications and
   to set resouce owner.
@@ -60,7 +60,10 @@ defmodule Authable.Plug.Authenticate do
   end
 
   defp response_conn_with(conn, nil) do
-    assign(conn, :current_user, nil)
+    conn
+    |> put_resp_header("www-authenticate", "Bearer realm=\"authable\"")
+    |> @renderer.render(:forbidden, %{errors: %{details: "Resource access requires authentication!"}})
+    |> halt
   end
   defp response_conn_with(conn, {:error, errors, http_status_code}) do
     [%{"www-authenticate" => header_val}] = errors[:headers]
